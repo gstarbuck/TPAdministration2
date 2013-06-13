@@ -8,6 +8,7 @@ namespace StatusReportService.Interfaces
 {
     public interface IStatusReportGenerationService
     {
+        void InitializeService(string tpAddress, string login, string password);
         void GenerateDocument();
     }
 }

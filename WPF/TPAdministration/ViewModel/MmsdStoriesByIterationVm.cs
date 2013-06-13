@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using GalaSoft.MvvmLight.Command;
 using TpAdminService;
@@ -54,6 +55,8 @@ namespace TpAdministration.ViewModel
 
         public IEnumerable<TpUserStory> TpUserStories { get; set; }
 
+        public string TotalPoints { get; set; }
+        public string TotalHours { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -61,7 +64,15 @@ namespace TpAdministration.ViewModel
         {
             TpUserStories = _service.GetStoriesByIteration(CurrentSelectedIteration.IterationId, "12694");
 
+            if (TpUserStories != null)
+            {
+                TotalPoints = TpUserStories.Sum(story => double.Parse(story.Effort)).ToString(CultureInfo.InvariantCulture);
+                TotalHours = TpUserStories.Sum(story => double.Parse(story.TimeSpent)).ToString(CultureInfo.InvariantCulture);
+            }
+
             OnPropertyChanged("TpUserStories");
+            OnPropertyChanged("TotalPoints");
+            OnPropertyChanged("TotalHours");
         }
 
         [NotifyPropertyChangedInvocator]

@@ -5,11 +5,39 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Office.Interop.Word;
+using TpAdminService.Interfaces;
+using TpAdministration;
+using TpAdminService;
 
 namespace StatusReportService
 {
     public class StatusReportGenerationService : Interfaces.IStatusReportGenerationService
     {
+
+        private ITargetProcessService _service;
+
+        public IEnumerable<TpIteration> IterationList { get; set; }
+        public IEnumerable<TpUserStory> TpUserStories { get; set; }
+
+        public TpIteration CurrentIteration { get; set; }
+
+        public void InitializeService(string tpAddress, string login, string password)
+        {
+            _service = new TargetProcessService();
+            _service.ConnectToTp(tpAddress, login, password);
+
+            InitializeLists();
+            CurrentIteration = IterationList.FirstOrDefault(
+                    (i) =>
+                    {
+                        DateTime startDate = DateTime.Parse(i.StartDate);
+                        DateTime endDate = DateTime.Parse(i.EndDate);
+
+                        return startDate < DateTime.Now && endDate > DateTime.Now;
+                    });
+        }
+
+
         public void GenerateDocument()
         {
             var app = new Application {Visible = true};
@@ -33,5 +61,12 @@ namespace StatusReportService
 
             app.Quit(SaveChanges: ref saveChanges);
         }
+
+        private void InitializeLists()
+        {
+            IterationList = _service.GetIterations("12694");
+            TpUserStories = _service.GetStoriesByIteration(CurrentIteration.IterationId, "12694");
+        }
+
     }
 }

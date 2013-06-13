@@ -48,6 +48,16 @@
     <Compile Include="StatusReportGenerationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Model\TPAdminModel\TpAdminModel.csproj">
+      <Project>{81DDA0BF-B87B-4F92-BB49-8A6CBF59562A}</Project>
+      <Name>TpAdminModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TPAdminService\TpAdminService.csproj">
+      <Project>{9af08eb1-7b6b-4ec0-9950-1a82da8b8ceb}</Project>
+      <Name>TpAdminService</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

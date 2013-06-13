@@ -22,5 +22,11 @@ namespace TpAdministration.View.Analysis
         private void btnGetCurrentIterationStories_Click(object sender, RoutedEventArgs e)
         {
         }
+
+        private void DgResults_OnCopyingRowClipboardContent(object sender, DataGridRowClipboardEventArgs e)
+        {
+            e.ClipboardRowContent.Clear();
+            e.ClipboardRowContent.Add(new DataGridClipboardCellContent(e.Item, (sender as DataGrid).Columns[0], e.Item.ToString()));
+        }
     }
 }
